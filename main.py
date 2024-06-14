@@ -1,28 +1,17 @@
+import logging
 import asyncio
 import logging
 import os
 import sys
-from os import getenv
-from pprint import pprint
 
-from aiogram import Bot, Dispatcher, html, types
-from aiogram.client.default import DefaultBotProperties
-from aiogram.client.session import aiohttp
-from aiogram.enums import ParseMode, ContentType
-from aiogram.filters import CommandStart
-from aiogram.types import Message
+from aiogram import Bot, Dispatcher
 from aiogram import F
-from aiogram.types import Message, InputMediaPhoto, InputMedia, FSInputFile, ContentType as CT
-
-
-from model_requests import get_weld_photo_class
-from bot_middlewares import AlbumMiddleware
-import asyncio
-from typing import Callable, Any, Awaitable, Union
-
-from aiogram import BaseMiddleware
+from aiogram.filters import CommandStart
+from aiogram.types import FSInputFile, ContentType as CT
 from aiogram.types import Message
 
+from bot_middlewares import AlbumMiddleware
+from model_requests import get_weld_photo_class
 
 TOKEN = '7278125173:AAH34aKuLGN1yBwDw11KIVmSAFaZH7aPK2Y'
 dp = Dispatcher()
