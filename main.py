@@ -3,15 +3,16 @@ import asyncio
 import logging
 import os
 import sys
+import uuid
 
 from aiogram import Bot, Dispatcher
 from aiogram import F
 from aiogram.filters import CommandStart
 from aiogram.types import FSInputFile, ContentType as CT
-from aiogram.types import Message
+from aiogram.types import Message, BufferedInputFile
 
 from bot_middlewares import AlbumMiddleware
-from model_requests import get_weld_photo_class
+from model_requests import find_defects_on_photo
 
 TOKEN = '7278125173:AAH34aKuLGN1yBwDw11KIVmSAFaZH7aPK2Y'
 dp = Dispatcher()
@@ -37,8 +38,9 @@ async def handle_albums(message: Message, album: list[Message]):
             photos_id.append(file_id)
     photos = await download_photos(photos_id, root='users_photos')
     for photo in photos:
-        weld_class = await get_weld_photo_class(photo)
-        await message.answer_photo(FSInputFile(path=photo), caption=weld_class)
+        processed_photo_bytes = await find_defects_on_photo(photo)
+        await message.answer_photo(BufferedInputFile(file=processed_photo_bytes, filename=str(uuid.uuid4())))
+        print(photo)
         os.remove(photo)
 
 async def download_photos(photos_ids, root):
