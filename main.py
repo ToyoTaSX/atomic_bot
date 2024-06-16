@@ -13,10 +13,10 @@ from aiogram.types import Message, BufferedInputFile
 
 from bot_middlewares import AlbumMiddleware
 from model_requests import find_defects_on_photo
+from config import TOKEN
 
-TOKEN = '7278125173:AAH34aKuLGN1yBwDw11KIVmSAFaZH7aPK2Y'
 dp = Dispatcher()
-bot = Bot(token=TOKEN)
+bot = Bot(token=TOKEN, timeout=30)
 dp.message.middleware(AlbumMiddleware())
 
 
@@ -39,7 +39,7 @@ async def handle_albums(message: Message, album: list[Message]):
     photos = await download_photos(photos_id, root='users_photos')
     for photo in photos:
         processed_photo_bytes = await find_defects_on_photo(photo)
-        await message.answer_photo(BufferedInputFile(file=processed_photo_bytes, filename=str(uuid.uuid4())))
+        await message.answer_photo(BufferedInputFile(file=processed_photo_bytes, filename='photo'))
         print(photo)
         os.remove(photo)
 

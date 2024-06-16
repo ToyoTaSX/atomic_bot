@@ -1,0 +1,2 @@
+TOKEN = '7278125173:AAH34aKuLGN1yBwDw11KIVmSAFaZH7aPK2Y'
+API_URL = 'http://127.0.0.1:8000/api/get_photo_class/'

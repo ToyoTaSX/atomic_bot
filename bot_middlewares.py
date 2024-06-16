@@ -47,3 +47,37 @@ class AlbumMiddleware(BaseMiddleware):
 
         if message.media_group_id and data.get("_is_last"):
             del self.album_data[message.media_group_id]
+
+
+# class AlbumMiddleware(BaseMiddleware):
+#     def __init__(self, latency: Union[int, float] = 0.01):
+#         self.latency = latency
+#         self.album_data = {}
+#
+#     async def __call__(
+#             self,
+#             handler: Callable[[Message, dict[str, Any]], Awaitable[Any]],
+#             message: Message,
+#             data: dict[str, Any]
+#     ) -> Any:
+#         if not message.media_group_id:
+#             data['album'] = [message]
+#             await handler(message, data)
+#             return
+#
+#         if message.media_group_id not in self.album_data:
+#             self.album_data[message.media_group_id] = []
+#
+#         self.album_data[message.media_group_id].append(message)
+#
+#         await asyncio.sleep(self.latency)
+#
+#         if len(self.album_data[message.media_group_id]) > 1:
+#             data['album'] = self.album_data.pop(message.media_group_id, [])
+#             await handler(message, data)
+#         else:
+#             data['album'] = [message]
+#             await handler(message, data)
+#
+#         if message.media_group_id in self.album_data:
+#             del self.album_data[message.media_group_id]
