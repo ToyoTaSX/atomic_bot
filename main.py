@@ -37,6 +37,7 @@ async def handle_albums(message: Message, album: list[Message]):
             file_id = obj_dict[msg.content_type]['file_id']
             photos_id.append(file_id)
     photos = await download_photos(photos_id, root='users_photos')
+    await message.answer('Подождите немного, идет загрузка')
     for photo in photos:
         processed_photo_bytes = await find_defects_on_photo(photo)
         await message.answer_photo(BufferedInputFile(file=processed_photo_bytes, filename='photo'))

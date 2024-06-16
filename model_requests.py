@@ -9,7 +9,7 @@ async def find_defects_on_photo(photo_path):
     try:
         with open(photo_path, 'rb') as f:
             files = {'image': f}
-            response = requests.post(API_URL, files=files)
+            response = requests.post(API_URL, files=files, allow_redirects=False)
             if response.ok:
                 image64 = response.json().get('image_base64')
                 image_data = base64.b64decode(image64)
